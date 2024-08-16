@@ -1,3 +1,10 @@
+window.addEventListener('load', function() {
+  var loadingScreen = document.getElementById('loading-screen');
+  setTimeout(function() {
+    loadingScreen.style.display = 'none';
+  }, 500);
+});
+
 function getBathValue() {
   var uiBathrooms = document.getElementsByName("uiBathrooms");
   for(var i in uiBathrooms) {
@@ -19,43 +26,67 @@ function getBHKValue() {
 }
 
 function onClickedEstimatePrice() {
-  console.log("Estimate price button clicked");
+  console.log("Submit Button Clicked");
   var sqft = document.getElementById("uiSqft");
   var bhk = getBHKValue();
   var bathrooms = getBathValue();
   var location = document.getElementById("uiLocations");
-  var estPrice = document.getElementById("uiEstimatedPrice");
+  var modal = document.getElementById("estimateModal");
+  var modalText = document.getElementById("modalText");
+  var span = document.getElementsByClassName("close")[0];
 
-   var url = "http://127.0.0.1:5000/predict_home_price"; //Use this if you are NOT using nginx which is first 7 tutorials
-  //var url = "/api/predict_home_price"; // Use this if  you are using nginx. i.e tutorial 8 and onwards
+  if (location.value === "") {
+    console.log("Error: Please select a Location");
+    alert("Please select a Location!");
+    return;
+  } 
+  var url = "http://127.0.0.1:5000/predict_home_price";
 
   $.post(url, {
       total_sqft: parseFloat(sqft.value),
       bhk: bhk,
       bath: bathrooms,
       location: location.value
-  },function(data, status) {
+  }, function(data, status) {
       console.log(data.estimated_price);
-      estPrice.innerHTML = "<h2>" + data.estimated_price.toString() + " Lakh</h2>";
+      modalText.innerHTML = "₹ " + data.estimated_price.toString() + " Lakhs";
       console.log(status);
+      modal.style.display = "block";
   });
+
+  // Close the modal when the user clicks on <span> (x)
+  span.onclick = function() {
+      modal.style.display = "none";
+  }
+
+  // Close the modal when the user clicks anywhere outside of the modal
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
 }
 
 function onPageLoad() {
-  console.log( "document loaded" );
-   var url = "http://127.0.0.1:5000/get_location_names"; // Use this if you are NOT using nginx which is first 7 tutorials
-  //var url = "/api/get_location_names"; // Use this if  you are using nginx. i.e tutorial 8 and onwards
-  $.get(url,function(data, status) {
-      console.log("got response for get_location_names request");
-      if(data) {
-          var locations = data.locations;
-          var uiLocations = document.getElementById("uiLocations");
-          $('#uiLocations').empty();
-          for(var i in locations) {
-              var opt = new Option(locations[i]);
-              $('#uiLocations').append(opt);
-          }
+  console.log("Page Loaded");
+  var url = "http://127.0.0.1:5000/get_location_names";
+  $.get(url, function(data, status) {
+    console.log("Got response for get_location_names request");
+    if (data) {
+      var locations = data.locations;
+      var uiLocations = document.getElementById("uiLocations");
+      $('#uiLocations').empty();
+
+      // Add default "Select an Option"
+      var defaultOption = new Option("Select an Option", "");
+      $('#uiLocations').append(defaultOption);
+
+      // Append location options
+      for (var i in locations) {
+        var opt = new Option(locations[i]);
+        $('#uiLocations').append(opt);
       }
+    }
   });
 }
 
