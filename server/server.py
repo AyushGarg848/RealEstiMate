@@ -6,7 +6,7 @@ app = Flask(__name__, static_folder='../client', template_folder='../client')
 
 @app.route('/')
 def serve_index():
-    return render_template('index.html')  # Ensure this file exists in the client folder
+    return render_template('app.html')
 
 @app.route('/<path:path>')
 def serve_static_files(path):
