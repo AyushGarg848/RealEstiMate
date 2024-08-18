@@ -116,9 +116,10 @@ select {
     padding: 20px;
     border: 1px solid #1e90ff; /* DodgerBlue border */
     border-radius: 10px; /* Rounded corners */
-    width: 30%; /* Responsive width */
+    width: 80%; /* Default width for smaller screens */
     max-width: 500px; /* Maximum width */
     color: #1e90ff; /* DodgerBlue text color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
 }
 
 /* Close Button */
@@ -138,10 +139,37 @@ select {
 
 /* Modal Text */
 #modalText {
-	margin-left: 15px;
+    margin-left: 15px;
     font-size: 20px;
-	font-weight: bold;
+    font-weight: bold;
+    display: block;
+    text-align: center; /* Center text for better alignment */
 }
+
+/* Media Query for Larger Screens */
+@media (min-width: 768px) {
+    .modal-content {
+        width: 50%; /* Wider width on larger screens */
+    }
+}
+
+/* Media Query for Extra Small Screens */
+@media (max-width: 480px) {
+    .modal-content {
+        width: 90%; /* Almost full width on extra small screens */
+        padding: 15px; /* Reduce padding for smaller screens */
+        font-size: 16px; /* Slightly smaller font size */
+    }
+
+    #modalText {
+        font-size: 18px; /* Adjust font size for small screens */
+    }
+
+    .close {
+        font-size: 18px; /* Smaller close button */
+    }
+}
+
 
 #loading-screen {
     position: fixed;

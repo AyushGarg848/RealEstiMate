@@ -40,6 +40,7 @@ function onClickedEstimatePrice() {
     alert("Please select a Location!");
     return;
   } 
+  
   var url = "https://realestimate.onrender.com/predict_home_price";
 
   $.post(url, {
