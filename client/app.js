@@ -40,7 +40,7 @@ function onClickedEstimatePrice() {
     alert("Please select a Location!");
     return;
   } 
-  var url = "http://127.0.0.1:10000/predict_home_price";
+  var url = "https://realestimate.onrender.com/predict_home_price";
 
   $.post(url, {
       total_sqft: parseFloat(sqft.value),
@@ -69,7 +69,7 @@ function onClickedEstimatePrice() {
 
 function onPageLoad() {
   console.log("Page Loaded");
-  var url = "http://127.0.0.1:10000/get_location_names";
+  var url = "https://realestimate.onrender.com/get_location_names";
   $.get(url, function(data, status) {
     console.log("Got response for get_location_names request");
     if (data) {
