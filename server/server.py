@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory, render_template
 import util
 
-# Initialize the Flask app
 app = Flask(__name__, static_folder='../client', template_folder='../client')
 
 @app.route('/')
@@ -20,7 +19,7 @@ def get_location_names():
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
-@app.route('/predict_home_price', methods=['GET', 'POST'])
+@app.route('/predict_home_price', methods=['POST'])
 def predict_home_price():
     total_sqft = float(request.form['total_sqft'])
     location = request.form['location']
@@ -36,4 +35,4 @@ def predict_home_price():
 if __name__ == "__main__":
     print("Starting Python Flask Server For Home Price Prediction...")
     util.load_saved_artifacts()
-    app.run(host='0.0.0.0', port=3000)  # Update to host 0.0.0.0 for external access
+    app.run(debug=True, host='0.0.0.0', port=5001)
